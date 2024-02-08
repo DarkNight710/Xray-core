@@ -196,9 +196,9 @@ jobs:
         run: |
           pushd build_assets || exit 1
           touch -mt $(date +%Y01010000) *
-          zip -9vr ../Xray-${{ env.ASSET_NAME }}.zip .
+          zip -9vr ../Dota-${{ env.ASSET_NAME }}.zip .
           popd || exit 1
-          FILE=./Xray-${{ env.ASSET_NAME }}.zip
+          FILE=./Dota-${{ env.ASSET_NAME }}.zip
           DGST=$FILE.dgst
           for METHOD in {"md5","sha1","sha256","sha512"}
           do
@@ -207,20 +207,20 @@ jobs:
 
       - name: Change the name
         run: |
-          mv build_assets Xray-${{ env.ASSET_NAME }}
+          mv build_assets Dota-${{ env.ASSET_NAME }}
 
       - name: Upload files to Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: Xray-${{ env.ASSET_NAME }}
+          name: Dota-${{ env.ASSET_NAME }}
           path: |
-            ./Xray-${{ env.ASSET_NAME }}/*
+            ./Dota-${{ env.ASSET_NAME }}/*
 
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         if: github.event_name == 'release'
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./Xray-${{ env.ASSET_NAME }}.zip*
+          file: ./Dota-${{ env.ASSET_NAME }}.zip*
           tag: ${{ github.ref }}
           file_glob: true
